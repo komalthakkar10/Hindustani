@@ -30,7 +30,7 @@
                     @endif
                 </div>
                 <div class="form-group col-md-6">
-                    <label for="child_name">Child Name :</label>
+                    <label for="child_name">Child Name :<span class="required">*</span></label>
                     <input type="text" class="form-control" name="child_name" id="child_name" value="{{ old('child_name') }}" placeholder="Enter Child Name">
                     @if ($errors->has('child_name'))
                     <label class="error" for="child_name">{{ $errors->first('child_name') }}</label>
@@ -83,7 +83,7 @@
                     @endif
                 </div>
                 <div class="form-group col-md-6">
-                    <label for="f_child_name">Child Name :</label>
+                    <label for="f_child_name">Child Name :<span class="required">*</span></label>
                     <input type="text" class="form-control" name="f_child_name" id="f_child_name" value="{{ old('f_child_name') }}" placeholder="Enter Child Name">
                     @if ($errors->has('f_child_name'))
                     <label class="error" for="f_child_name">{{ $errors->first('f_child_name') }}</label>
@@ -136,7 +136,7 @@
                     @endif
                 </div>
                 <div class="form-group col-md-6">
-                    <label for="m_child_name">Child Name :</label>
+                    <label for="m_child_name">Child Name :<span class="required">*</span></label>
                     <input type="text" class="form-control" name="m_child_name" id="m_child_name" value="{{ old('m_child_name') }}" placeholder="Enter Child Name">
                     @if ($errors->has('m_child_name'))
                     <label class="error" for="m_child_name">{{ $errors->first('m_child_name') }}</label>
@@ -166,14 +166,14 @@
         <form role="form" id="childForm" method="post"  autocomplete="off">
             <div class="col-lg-12">
                 <div class="form-group col-md-6">
-                    <label for="c_name">Name :<span class="required">*</span></label>
+                    <label for="c_name">Name :</label>
                     <input type="text" class="form-control" name="c_name" id="c_name" value="{{ old('c_name') }}" placeholder="Enter Name">
                     @if ($errors->has('c_name'))
                     <label class="error" for="c_name">{{ $errors->first('c_name') }}</label>
                     @endif
                 </div>
                 <div class="form-group col-md-6">
-                    <label for="c_father_name">Father Name :<span class="required">*</span></label>
+                    <label for="c_father_name">Father Name :</label>
                     <input type="text" class="form-control" name="c_father_name" id="c_father_name" value="{{ old('c_father_name') }}" placeholder="Enter Father Name">
                     @if ($errors->has('c_father_name'))
                     <label class="error" for="c_father_name">{{ $errors->first('c_father_name') }}</label>
@@ -182,7 +182,7 @@
 	       </div>
             <div class="col-lg-12">
                 <div class="form-group col-md-6">
-                    <label for="c_mother_name">Mother Name :<span class="required">*</span></label>
+                    <label for="c_mother_name">Mother Name :</label>
                     <input type="text" class="form-control" name="c_mother_name" id="c_mother_name" value="{{ old('c_mother_name') }}" placeholder="Enter Mother Name">
                     @if ($errors->has('c_mother_name'))
                     <label class="error" for="c_mother_name">{{ $errors->first('c_mother_name') }}</label>
@@ -198,14 +198,14 @@
             </div>
             <div class="col-lg-12">
                 <div class="form-group col-md-6">
-                    <label for="c_aadhar">Aadhar :<span class="required">*</span>(12 digits)</label>
+                    <label for="c_aadhar">Aadhar :(12 digits)</label>
                     <input type="text" data-type="adhaar-number" class="form-control" name="c_aadhar" id="c_aadhar" value="{{ old('c_aadhar') }}" placeholder="Enter your Aadhar" maxlength="12">
                     @if ($errors->has('c_aadhar'))
                     <label class="error" for="c_aadhar">{{ $errors->first('c_aadhar') }}</label>
                     @endif
                 </div>
                 <div class="form-group col-md-6">
-                    <label for="c_birth_date">Birth Date :<span class="required">*</span></label>
+                    <label for="c_birth_date">Birth Date :</label>
                     <input type="date" class="form-control" name="c_birth_date" id="c_birth_date" value="{{ old('c_birth_date') }}" placeholder="Enter Birth Date">
                     @if ($errors->has('c_birth_date'))
                     <label class="error" for="c_birth_date">{{ $errors->first('c_birth_date') }}</label>
@@ -234,7 +234,13 @@
     		},
 	        data: mainForm,
 	        success: function(data) {
-	           window.location.href = "{{ url('users/') }}";
+                console.log(data.success);
+                if(data.success == true){
+                    window.location.href = "{{ url('users/') }}";
+                }else{
+                    window.location.href = "{{ url('users/create') }}";
+
+                }
 	        },
         	error: function (reject) {
                 if( reject.status === 422 ) {
@@ -254,6 +260,11 @@
             }
     });
  	});
+    $('[data-type="adhaar-number"]').keyup(function() {
+        var value = $(this).val();
+        value = value.replace(/\D/g, "").split(/(?:([\d]{4}))/g).filter(s => s.length > 0).join("");
+        $(this).val(value);
+        });
     $('[data-type="adhaar-number"]').on("change, blur", function() {
         var value = $(this).val();
         var maxLength = $(this).attr("maxLength");

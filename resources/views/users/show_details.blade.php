@@ -23,7 +23,13 @@
         		<label for="mother_name">Mother Name : </label> <span><a data-id="{{ $mother_details->id }}" onclick="motherDetails(event.target)">{{ $users['mother_name'] }}</a></span>
         	</div>
         	<div class="form-group col-lg-6">
-        		<label for="children">Children : </label> <span><a data-id="{{ $child_details->id }}" onclick="childDetails(event.target)">{{ $users['child_name'] }}</a></span>
+        		  <label for="children">Children : </label> 
+              @if($child_details != null)
+              <span>
+              <a data-id="{{  $child_details->id }}" onclick="childDetails(event.target)">{{ $users['child_name'] }}</a></span>
+              @else
+              <span>{{ $users['child_name'] }}</span>
+              @endif
           </div>
         </div>
 	    </div>

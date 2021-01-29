@@ -50,83 +50,81 @@ class UsersController extends Controller
                 'name'          => 'required',
                 'father_name'   => 'required',
                 'mother_name'   => 'required',
+                'child_name'    => 'required',
                 'aadhar'        => 'required|min:12',
                 'birth_date'    => 'required',
                 'f_name'        => 'required',
                 'f_father_name' => 'required',
                 'f_mother_name' => 'required',
+                'f_child_name'  => 'required',
                 'f_aadhar'      => 'required|min:12',
                 'f_birth_date'  => 'required',
                 'm_name'        => 'required',
                 'm_father_name' => 'required',
                 'm_mother_name' => 'required',
+                'm_child_name' => 'required',
                 'm_aadhar'      => 'required|min:12',
                 'm_birth_date'  => 'required',
-                'c_name'        => 'required',
-                'c_father_name' => 'required',
-                'c_mother_name' => 'required',
-                'c_aadhar'      => 'required|min:12',
-                'c_birth_date'  => 'required',
             ]);
-          /* if ($validated->fails())
+            
+                $users              = new User;
+                $users->name        = $request->name;
+                $users->father_name = $request->father_name;
+                $users->mother_name = $request->mother_name;
+                $users->child_name  = $request->child_name;
+                $users->aadhar      = $request->aadhar;
+                $users->birth_date  = Carbon::parse($request->birth_date)->format('Y-m-d');
+                $users->save();
+                $user_id = $users->id;
+            
+            if($request->f_name && $request->f_father_name && $request->f_mother_name && $request->f_child_name && $request->f_aadhar && $request->f_birth_date)
             {
-                return Response::json(array(
-                    'success' => false,
-                    'errors' => $validated->getMessageBag()->toArray()
-
-                ), 422);
-            }*/
-            $users              = new User;
-            $users->name        = $request->name;
-            $users->father_name = $request->father_name;
-            $users->mother_name = $request->mother_name;
-            $users->child_name  = $request->child_name;
-            $users->aadhar      = $request->aadhar;
-            $users->birth_date  = Carbon::parse($request->birth_date)->format('Y-m-d');
-            $users->save();
-        
-            $fatherDetails = DB::table('father_details')->insert(
-                 array(
-                         'user_id'     =>   $users->id,
-                         'name'        =>   $request->f_name,
-                         'father_name' =>   $request->f_father_name,
-                         'mother_name' =>   $request->f_mother_name,
-                         'child_name'  =>   $request->f_child_name,
-                         'aadhar'      =>   $request->f_aadhar,
-                         'birth_date'  =>   Carbon::parse($request->f_birth_date)->format('Y-m-d'),
-                         'created_at'  =>   Carbon::now(),
-                         'updated_at'  =>   Carbon::now(),
-                 )
-            );
-        
-            $motherDetails = DB::table('mother_details')->insert(
-                 array(
-                         'user_id'     =>   $users->id,
-                         'name'        =>   $request->m_name,
-                         'father_name' =>   $request->m_father_name,
-                         'mother_name' =>   $request->m_mother_name,
-                         'child_name'  =>   $request->m_child_name,
-                         'aadhar'      =>   $request->m_aadhar,
-                         'birth_date'  =>    Carbon::parse($request->m_birth_date)->format('Y-m-d'),
-                         'created_at'  =>   Carbon::now(),
-                         'updated_at'  =>   Carbon::now(),
-                 )
-            );
-        
-            $childDetails = DB::table('child_details')->insert(
-                 array(
-                         'user_id'     =>   $users->id,
-                         'name'        =>   $request->c_name,
-                         'father_name' =>   $request->c_father_name,
-                         'mother_name' =>   $request->c_mother_name,
-                         'child_name'  =>   $request->c_child_name,
-                         'aadhar'      =>   $request->c_aadhar,
-                         'birth_date'  =>    Carbon::parse($request->c_birth_date)->format('Y-m-d'),
-                         'created_at'  =>   Carbon::now(),
-                         'updated_at'  =>   Carbon::now(),
-                 )
-            );
-      
+                $fatherDetails = DB::table('father_details')->insert(
+                     array(
+                             'user_id'     =>   $user_id,
+                             'name'        =>   $request->f_name,
+                             'father_name' =>   $request->f_father_name,
+                             'mother_name' =>   $request->f_mother_name,
+                             'child_name'  =>   $request->f_child_name,
+                             'aadhar'      =>   $request->f_aadhar,
+                             'birth_date'  =>   Carbon::parse($request->f_birth_date)->format('Y-m-d'),
+                             'created_at'  =>   Carbon::now(),
+                             'updated_at'  =>   Carbon::now(),
+                     )
+                );
+            }
+            if($request->m_name && $request->m_father_name && $request->m_mother_name && $request->m_child_name && $request->m_aadhar && $request->m_birth_date)
+            {
+                $motherDetails = DB::table('mother_details')->insert(
+                     array(
+                             'user_id'     =>   $user_id,
+                             'name'        =>   $request->m_name,
+                             'father_name' =>   $request->m_father_name,
+                             'mother_name' =>   $request->m_mother_name,
+                             'child_name'  =>   $request->m_child_name,
+                             'aadhar'      =>   $request->m_aadhar,
+                             'birth_date'  =>    Carbon::parse($request->m_birth_date)->format('Y-m-d'),
+                             'created_at'  =>   Carbon::now(),
+                             'updated_at'  =>   Carbon::now(),
+                     )
+                );
+            }
+            if($request->c_name && $request->c_father_name && $request->c_mother_name && $request->c_child_name && $request->c_aadhar && $request->c_birth_date)
+            {
+                $childDetails = DB::table('child_details')->insert(
+                     array(
+                             'user_id'     =>   $user_id,
+                             'name'        =>   $request->c_name,
+                             'father_name' =>   $request->c_father_name,
+                             'mother_name' =>   $request->c_mother_name,
+                             'child_name'  =>   $request->c_child_name,
+                             'aadhar'      =>   $request->c_aadhar,
+                             'birth_date'  =>    Carbon::parse($request->c_birth_date)->format('Y-m-d'),
+                             'created_at'  =>   Carbon::now(),
+                             'updated_at'  =>   Carbon::now(),
+                     )
+                );
+            }
         
          return response()->json(['success' => true],200);
     }
