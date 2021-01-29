@@ -13,7 +13,7 @@
 		        		<label for="aadhar">Aadhar : </label> <span>{{ $users->aadhar }}</span>
 		        	</div>
 		        	<div class="form-group col-lg-6">
-		        		<label for="birth_date">Birth Date : </label> <span>{{ {{ Carbon\Carbon::parse($users->birth_date)->format('d-m-Y') }} }}</span>
+		        		<label for="birth_date">Birth Date : </label> <span>{{ Carbon\Carbon::parse($users->birth_date)->format('d-m-Y') }} </span>
 		        	</div>
 		        	<div class="form-group col-lg-6">
 		        		<label for="father_name">Father Name : </label> <span>{{ $users->father_name }}</span>
