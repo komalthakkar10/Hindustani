@@ -21,9 +21,9 @@ class CreateUsersTable extends Migration
             $table->string('child_name');
             $table->bigInteger('aadhar');
             $table->date('birth_date');
-            $table->string('email')->unique();
+            $table->string('email')->unique()->nullable();
             $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
+            $table->string('password')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
