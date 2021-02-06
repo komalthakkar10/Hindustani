@@ -5,7 +5,7 @@
   border: none;
   color: white;
   padding: 15px 32px;
-  text-align: center;
+  text-align: center;r
   text-decoration: none;
   display: inline-block;
   font-size: 16px;
@@ -28,7 +28,7 @@
 		<p class="alert {{ Session::get('alert-class', 'alert-info') }}">{{ Session::get('message') }}</p>
 	@endif
 		<center><a href="{{ route('login') }}" class="button button1">Login</a></center>
-		<center><a href="{{ route('register') }}" class="button button1">register</a></center>
+		
 		
 		<center><a href="{{ route('job.create') }}" class="button button2">Apply For Job</a></center>
 </div>
