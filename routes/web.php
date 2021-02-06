@@ -1,6 +1,8 @@
 <?php
 
+use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
+use Inertia\Inertia;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,13 +16,24 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+	
+    return view('home');
+    
 });
 
-Route::get('users/','UsersController@index');
-Route::get('users/create','UsersController@create');
-Route::post('users/store','UsersController@store')->name('users.store');
-Route::get('users_details/{id}','UsersController@show');
-Route::get('father_details/','UsersController@FatherDetails');
-Route::get('mother_details/','UsersController@MotherDetails');
-Route::get('child_details/','UsersController@ChildDetails');
+/*Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
+    return Inertia::render('Dashboard');
+})->name('dashboard');*/
+Route::middleware(['auth:sanctum', 'verified'])->get('/job', function () {
+    $jobs = App\Models\Job::get();
+    return view('job.index',compact('jobs'));
+})->name('job');
+
+
+Route::get('job','JobController@index');
+Route::get('job/create','JobController@create')->name('job.create');
+Route::post('job/store','JobController@store')->name('job.store');
+Route::get('job/edit/{id}','JobController@edit')->name('job.edit');
+Route::put('job/update/{id}','JobController@update')->name('job.update');
+Route::get('job/{id}','JobController@show')->name('job.show');
+Route::delete('job/{id}/delete','JobController@delete')->name('job.delete');
